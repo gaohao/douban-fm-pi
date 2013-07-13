@@ -1,7 +1,7 @@
 # coding: utf-8
- 
+
 from BeautifulSoup import BeautifulSoup
-import urllib, urllib2, cookielib, re, json, eyeD3, os
+import urllib, urllib2, cookielib, re, json, eyed3, os
 
 import download
 
@@ -21,7 +21,7 @@ def get_ssids(album):
 
 def get_ssid(album, sid):
     return get_ssids(album)[sid]
- 
+
 def main():
     album = raw_input('album:')
     ssids = get_ssids(album)
@@ -29,6 +29,6 @@ def main():
     for sid, ssid in ssids.iteritems():
         ret = download.handle(sid, ssid)
         print ret
- 
+
 if __name__ == '__main__':
     main()

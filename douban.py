@@ -1,6 +1,6 @@
 # coding: utf-8
  
-import urllib, urllib2, cookielib, re, json, eyeD3, os
+import urllib, urllib2, cookielib, re, json, eyed3, os
 import Cookie
 
 import download

@@ -1,6 +1,6 @@
 # coding: utf-8
- 
-import urllib, urllib2, cookielib, re, json, eyeD3, os
+
+import urllib, urllib2, cookielib, re, json, eyed3, os
 
 songs_dir = 'songs'
 base_url = 'http://douban.fm/j/mine/playlist?type=n&sid=&pt=0.0&channel=0&from=mainsite'
@@ -43,7 +43,7 @@ def download(song):
     tag.setDate(song['public_time'])
     tag.addImage(3, picpath)
     os.remove(picpath)
-    tag.update()	
+    tag.update()
 
 def handle(sid, ssid):
     try:
