@@ -1,8 +1,8 @@
 # coding: utf-8
  
-import urllib, urllib2, cookielib, re, json, eyed3, os
+import urllib, urllib2, cookielib, re, json, eyed3, os, httplib
 import Cookie
-
+from contextlib import closing 
 import download
 import download_album
 
@@ -36,8 +36,25 @@ def get(myurl, cookie):
                 print 'fail!\n\n'
         except:
             print 'fail!\n\n'
- 
+
+def login(username, password):
+    data = urllib.urlencode({'form_email':username, 'form_password':password})
+    with closing(httplib.HTTPConnection("www.douban.com")) as conn:
+        conn.request("POST", "/accounts/login", data, {"Content-Type":"application/x-www-form-urlencoded"})
+        cookie = Cookie.SimpleCookie(conn.getresponse().getheader('Set-Cookie'))
+        if not cookie.has_key('dbcl2'):
+            print 'login failed'
+            return 
+        dbcl2 = cookie['dbcl2'].value
+        if dbcl2 and len(dbcl2) > 0:
+            uid = dbcl2.split(':')[0]
+        bid = cookie['bid'].value 
+        print cookie
+
 def main():
+    username = raw_input('username:')
+    password = raw_input('password:')
+    #login(username, password)
     cookie = raw_input('cookie:')
     c = Cookie.SimpleCookie()
     c.load(cookie)
