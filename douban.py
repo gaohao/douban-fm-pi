@@ -14,6 +14,7 @@ def html_decode(html):
     return HTMLParser.HTMLParser().unescape(html)
  
 def get(myurl, cookie):
+    print myurl, cookie
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookielib.CookieJar()))
     urllib2.install_opener(opener)
     req = urllib2.Request(myurl)
@@ -52,10 +53,12 @@ def login(username, password):
         print cookie
 
 def main():
-    username = raw_input('username:')
-    password = raw_input('password:')
+    #username = raw_input('username:')
+    #password = raw_input('password:')
     #login(username, password)
-    cookie = raw_input('cookie:')
+    #cookie = raw_input('cookie:')
+    cookie_file = open('cookie.txt', 'r')
+    cookie = cookie_file.read()
     c = Cookie.SimpleCookie()
     c.load(cookie)
     ck = c.get('ck').value
