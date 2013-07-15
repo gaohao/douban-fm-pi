@@ -1,8 +1,8 @@
 # coding: utf-8
- 
+
 import urllib, urllib2, cookielib, re, json, eyed3, os, httplib
 import Cookie
-from contextlib import closing 
+from contextlib import closing
 import download
 import download_album
 
@@ -12,7 +12,7 @@ def html_decode(html):
     #return html.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&quot;', '"').replace('&#39;', "'")
     import HTMLParser
     return HTMLParser.HTMLParser().unescape(html)
- 
+
 def get(myurl, cookie):
     print myurl, cookie
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookielib.CookieJar()))
@@ -45,11 +45,11 @@ def login(username, password):
         cookie = Cookie.SimpleCookie(conn.getresponse().getheader('Set-Cookie'))
         if not cookie.has_key('dbcl2'):
             print 'login failed'
-            return 
+            return
         dbcl2 = cookie['dbcl2'].value
         if dbcl2 and len(dbcl2) > 0:
             uid = dbcl2.split(':')[0]
-        bid = cookie['bid'].value 
+        bid = cookie['bid'].value
         print cookie
 
 def main():
@@ -58,7 +58,9 @@ def main():
     #login(username, password)
     #cookie = raw_input('cookie:')
     cookie_file = open('cookie.txt', 'r')
-    cookie = cookie_file.read()
+    # cookie should include:
+    # flag="ok"; ac="1349244677"; bid="m4uoOiPelk4"; person_tags=; person_tag_names=; openExpPan=Y; dbcl2="53360401:j1FKEjqvWuM"; fmNlogin="y"; ck="OEu-";
+    cookie = cookie_file.read().strip()
     c = Cookie.SimpleCookie()
     c.load(cookie)
     ck = c.get('ck').value
@@ -68,6 +70,6 @@ def main():
     page1 = int(raw_input('page to:'))
     for i in range(page1-page0+1):
         get(url%((i+page0-1)*15), cookie)
- 
+
 if __name__ == '__main__':
     main()
