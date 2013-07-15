@@ -1,3 +1,3 @@
 #/bin/sh
 
-mpg123 *.mp3
+mpg123 songs/*.mp3
