@@ -29,29 +29,55 @@ def download(song):
     filepath = os.path.join(songs_dir, filename)
     if os.path.exists(filepath):
         return
-    urllib.urlretrieve(song['url'], filepath)
+    try: 
+        print 'url: ' + song['url']
+        urllib.urlretrieve(song['url'], filepath)
+        print 'Song downloaded'
+    except ContentTooShortError:
+        print 'ContentTooShortError'
+        if os.path.exists(filepath):
+            os.remove(filepath)
+        return False
+    except:
+        print 'Error'
+        if os.path.exists(filepath):
+            os.remove(filepath)
+        return False
+            
     picname = song['picture'][1+song['picture'].rindex('/'):]
     picpath = os.path.join(songs_dir, picname)
-    urllib.urlretrieve(song['picture'].replace('mpic','lpic'), picpath)
-    tag = eyeD3.Tag()
-    tag.link(filepath)
-    tag.header.setVersion(eyeD3.ID3_V2_3)
-    tag.encoding = '\x01'
-    tag.setTitle(song['title'])
-    tag.setAlbum(song['albumtitle'])
-    tag.setArtist(song['artist'])
-    tag.setDate(song['public_time'])
-    tag.addImage(3, picpath)
-    os.remove(picpath)
-    tag.update()
+
+    try:
+        urllib.urlretrieve(song['picture'].replace('mpic','lpic'), picpath)
+        print 'Picture downloaded'
+    except Exception, e:
+        print 'Error in retrieve picture!'
+        pass
+    try:
+        tag = eyed3.Tag()
+        tag.link(filepath)
+        tag.header.setVersion(eyed3.ID3_V2_3)
+        tag.encoding = '\x01'
+        tag.setTitle(song['title'])
+        tag.setAlbum(song['albumtitle'])
+        tag.setArtist(song['artist'])
+        tag.setDate(song['public_time'])
+        tag.addImage(3, picpath)
+        os.remove(picpath)
+        tag.update()
+    except Exception, e:
+        print 'Error in tag update!%s' % str(e)
+        pass
 
 def handle(sid, ssid):
     try:
         songs = get_songs_information(sid, ssid)
+        print 'infomation done!'
         for song in songs:
             if sid == song['sid']:
                 download(song)
                 return True
     except:
+        print 'Error in Handle'
         pass
     return False
