@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import urllib, urllib2, cookielib, re, json, eyed3, os, httplib
+import urllib, urllib2, cookielib, re, json, eyeD3, os, httplib
 import Cookie
 from contextlib import closing
 import download
@@ -66,10 +66,10 @@ def main():
     ck = c.get('ck').value
     url = 'http://douban.fm/j/play_record?ck=' + ck + '&type=liked&start=%d'
     print 'you should enter the pages you want to download'
-    page0 = int(raw_input('page from:'))
-    page1 = int(raw_input('page to:'))
-    for i in range(page1-page0+1):
-        get(url%((i+page0-1)*15), cookie)
+    start = int(raw_input('page from:'))
+    end = int(raw_input('page to:'))
+    for i in range(end - start + 1):
+        get(url%((start + i - 1) * 15), cookie)
 
 if __name__ == '__main__':
     main()

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from BeautifulSoup import BeautifulSoup
-import urllib, urllib2, cookielib, re, json, eyed3, os
+import urllib, urllib2, cookielib, re, json, eyeD3, os
 
 import download
 

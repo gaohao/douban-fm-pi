@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import urllib, urllib2, cookielib, re, json, eyed3, os
+import urllib, urllib2, cookielib, re, json, eyeD3, os
 
 songs_dir = 'songs'
 base_url = 'http://douban.fm/j/mine/playlist?type=n&sid=&pt=0.0&channel=0&from=mainsite'
@@ -44,7 +44,7 @@ def download(song):
             os.remove(filepath)
         return False
             
-    picname = song['picture'][1+song['picture'].rindex('/'):]
+    picname = song['picture'][1 + song['picture'].rindex('/'):]
     picpath = os.path.join(songs_dir, picname)
 
     try:
@@ -54,17 +54,17 @@ def download(song):
         print 'Error in retrieve picture!'
         pass
     try:
-        tag = eyed3.core.Tag()
+        tag = eyeD3.Tag()
         tag.link(filepath)
-        tag.header.setVersion(eyed3.ID3_V2_3)
+        tag.header.setVersion(eyeD3.ID3_V2_3)
         tag.encoding = '\x01'
         tag.setTitle(song['title'])
         tag.setAlbum(song['albumtitle'])
         tag.setArtist(song['artist'])
         tag.setDate(song['public_time'])
         tag.addImage(3, picpath)
-        os.remove(picpath)
         tag.update()
+        os.remove(picpath)
     except Exception, e:
         print 'Error in tag update!%s' % str(e)
         pass
