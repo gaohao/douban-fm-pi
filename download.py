@@ -54,7 +54,7 @@ def download(song):
         print 'Error in retrieve picture!'
         pass
     try:
-        tag = eyed3.Tag()
+        tag = eyed3.core.Tag()
         tag.link(filepath)
         tag.header.setVersion(eyed3.ID3_V2_3)
         tag.encoding = '\x01'
